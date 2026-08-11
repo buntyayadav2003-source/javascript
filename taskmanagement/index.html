@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+
+    
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css"
+        integrity="sha512-ApSLB1Pd3/bZN8fWB/RG9YhN/7bd9Hkf3AGaE2mPfebjrxagjuBtx2GcgdqIlJkUzwylBo61r9Xa9NmgBI0swA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="display-3 text-center text-primary">Task Managemnet</h1>
+    </div>
+
+    <div class="container w-50">
+        <div class="mb-3">
+            <label for="taskTitleInput" class="form-label">task title</label>
+            <input type="text" class="form-control" id="taskTitleInput">
+
+        </div>
+        <div class="mb-3">
+            <label for="taskDescriptionInput" class="form-label">task Description</label>
+            <input type="text" class="form-control" id="taskDescriptionInput">
+
+        </div>
+        <div class="mb-3">
+            <button class="btn btn-primary w-100" onclick="addNewTask()">
+                <i class="fa-regular fa-face-grin-wide"></i>
+                Add task
+                 <i class="fa-regular fa-face-grin-wide"></i>
+            </button>
+
+        </div>
+    </div>
+
+
+    <div class="container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody id="renderTasks">
+            </tbody>
+        </table>
+    </div>
+
+    <script src="./script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
+ 
