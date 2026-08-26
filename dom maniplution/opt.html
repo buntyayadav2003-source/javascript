@@ -73,7 +73,88 @@
 </div>
 
 <script>
- 
+  const inputs = document.querySelectorAll('.otp-input');
+  const form = document.getElementById('otpForm');
+  const resendBtn = document.getElementById('resendBtn');
+  const timerSpan = document.getElementById('timer');
+
+  // 1. Auto-focus and navigation logic
+  inputs.forEach((input, index) => {
+    // Only allow numeric input
+    input.addEventListener('input', (e) => {
+      const val = e.target.value;
+      if (!/^\d*$/.test(val)) {
+        e.target.value = '';
+        return;
+      }
+      if (val.length === 1 && index < inputs.length - 1) {
+        inputs[index + 1].focus();
+      }
+    });
+
+    // Handle Backspace navigation
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Backspace' && !input.value && index > 0) {
+        inputs[index - 1].focus();
+      }
+    });
+
+    // Handle Paste event (e.g., pasting full 6 digits)
+    input.addEventListener('paste', (e) => {
+      e.preventDefault();
+      const pasteData = (e.clipboardData || window.clipboardData).getData('text').trim();
+      if (/^\d{6}$/.test(pasteData)) {
+        pasteData.split('').forEach((char, i) => {
+          if (inputs[i]) inputs[i].value = char;
+        });
+        inputs[inputs.length - 1].focus();
+      }
+    });
+  });
+
+  // 2. Handle Form Submission
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const otpCode = Array.from(inputs).map(input => input.value).join('');
+    
+    if (otpCode.length === 6) {
+      alert(`OTP submitted: ${otpCode}`);
+      
+      
+    }
+  });
+
+  // 3. Resend OTP Countdown Timer
+  let countdown = 60;
+  let timerInterval;
+
+  function startTimer() {
+    countdown = 60;
+    resendBtn.disabled = true;
+    resendBtn.innerHTML = `Resend OTP in <span id="timer">${countdown}</span>s`;
+
+    timerInterval = setInterval(() => {
+      countdown--;
+      const timerElement = document.getElementById('timer');
+      if (timerElement) timerElement.innerText = countdown;
+
+      if (countdown <= 0) {
+        clearInterval(timerInterval);
+        resendBtn.disabled = false;
+        resendBtn.innerText = 'Resend OTP';
+      }
+    }, 1000);
+  }
+
+  resendBtn.addEventListener('click', () => {
+    inputs.forEach(input => input.value = '');
+    inputs[0].focus();
+    alert('A new OTP has been sent!');
+    startTimer();
+  });
+
+  
+  startTimer();
 </script>
 
 </body>
