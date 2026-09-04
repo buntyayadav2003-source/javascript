@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+  <meta charset="UTF-8">
+  <title>दहीहंडी कार्टून ॲनिमेशन</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background: radial-gradient(circle at center, #ffeaa7 0%, #fab1a0 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: sans-serif;
+      overflow: hidden;
+    }
+    canvas {
+      background: #74b9ff;
+      border: 4px solid #d63031;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+    .btn {
+      margin-top: 15px;
+      padding: 10px 24px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #fff;
+      background: #e17055;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 4px #d63031;
+    }
+    .btn:active {
+      transform: translateY(2px);
+      box-shadow: 0 2px #d63031;
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="handiCanvas" width="450" height="600"></canvas>
+  <button class="btn" onclick="triggerHit()">हंडी फोडा! (Hit Handi)</button>
+
+  <script>
+    const canvas = document.getElementById('handiCanvas');
+    const ctx = canvas.getContext('2d');
+
+    let swingAngle = 0;
+    let hitAnimation = false;
+    let stickRotation = -0.5;
+    let isBroken = false;
+
+    const splashParticles = [];
+    const confettiParticles = [];
+
+    // कण तयार करण्याचे फंक्शन
+    function createSplash() {
+      for (let i = 0; i < 40; i++) {
+        splashParticles.push({
+          x: 225,
+          y: 200,
+          vx: (Math.random() - 0.5) * 8,
+          vy: (Math.random() - 0.7) * 9,
+          radius: Math.random() * 6 + 2,
+          color: '#ffffff'
+        });
+      }
+      for (let i = 0; i < 50; i++) {
+        confettiParticles.push({
+          x: 225,
+          y: 200,
+          vx: (Math.random() - 0.5) * 10,
+          vy: (Math.random() - 0.8) * 10,
+          size: Math.random() * 8 + 4,
+          color: ['#e84393', '#fdcb6e', '#00b894', '#0984e3'][Math.floor(Math.random() * 4)]
+        });
+      }
+    }
+
+    // बॅकग्राउंड व तोरण
+    function drawBackground() {
+      // मातीची जमीन
+      ctx.fillStyle = '#b2bec3';
+      ctx.fillRect(0, 520, 450, 80);
+
+      // वरची दोरी
+      ctx.strokeStyle = '#634b35';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(0, 70);
+      ctx.quadraticCurveTo(225, 90, 450, 70);
+      ctx.stroke();
+
+      // तोरण/फुले
+      for (let x = 30; x < 450; x += 40) {
+        ctx.fillStyle = '#ff7675';
+        ctx.beginPath();
+        ctx.arc(x, 75, 6, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    // दहीहंडी
+    function drawHandi() {
+      ctx.save();
+      ctx.translate(225, 80);
+      ctx.rotate(Math.sin(swingAngle) * 0.08);
+
+      // लटकवलेली दोरी
+      ctx.strokeStyle = '#d63031';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.lineTo(0, 100);
+      ctx.stroke();
+
+      if (!isBroken) {
+        // अखंड मटका
+        ctx.fillStyle = '#d35400';
+        ctx.beginPath();
+        ctx.arc(0, 120, 32, 0, Math.PI * 2);
+        ctx.fill();
+
+        // हंडीवरील डिझाईन
+        ctx.fillStyle = '#f1c40f';
+        ctx.fillRect(-22, 115, 44, 8);
+
+        // लोणी वरून बाहेर येताना
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath();
+        ctx.arc(0, 93, 14, 0, Math.PI);
+        ctx.fill();
+      } else {
+        // फुटलेला मटका
+        ctx.fillStyle = '#d35400';
+        ctx.beginPath();
+        ctx.arc(-14, 125, 16, 0, Math.PI * 2);
+        ctx.arc(14, 125, 16, 0, Math.PI * 2);
+        ctx.fill();
+
+        // खाली पडणारी दहीची धार
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(-6, 120, 12, 100);
+      }
+
+      ctx.restore();
+    }
+
+    
+    function drawKrishna() {
+      ctx.save();
+      ctx.translate(140, 270);
+
+    
+      ctx.fillStyle = '#f9ca24';
+      ctx.beginPath();
+      ctx.moveTo(10, 60);
+      ctx.lineTo(35, 110);
+      ctx.lineTo(-15, 110);
+      ctx.closePath();
+      ctx.fill();
+
+      
+      ctx.fillStyle = '#7ed6df';
+      ctx.beginPath();
+      ctx.arc(10, 50, 18, 0, Math.PI * 2);
+      ctx.fill();
+
+    
+      ctx.beginPath();
+      ctx.arc(10, 10, 18, 0, Math.PI * 2);
+      ctx.fill();
+
+
+      ctx.fillStyle = '#222';
+      ctx.beginPath();
+      ctx.arc(15, 8, 2, 0, Math.PI * 2);
+      ctx.fill();
+
+      
+      ctx.fillStyle = '#26de81';
+      ctx.beginPath();
+      ctx.ellipse(5, -12, 6, 12, -0.4, 0, Math.PI * 2);
+      ctx.fill();
+
+      
+      ctx.save();
+      ctx.translate(20, 30);
+      ctx.rotate(stickRotation);
+
+    
+      ctx.strokeStyle = '#e17055';
+      ctx.lineWidth = 5;
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.lineTo(50, -45);
+      ctx.stroke();
+      ctx.restore();
+
+      ctx.restore();
+    }
+
+    
+    function drawParticles() {
+      for (let i = splashParticles.length - 1; i >= 0; i--) {
+        const p = splashParticles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.25; 
+        ctx.fillStyle = p.color;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fill();
+
+        if (p.y > 600) splashParticles.splice(i, 1);
+      }
+
+      for (let i = confettiParticles.length - 1; i >= 0; i--) {
+        const c = confettiParticles[i];
+        c.x += c.vx;
+        c.y += c.vy;
+        c.vy += 0.15;
+        ctx.fillStyle = c.color;
+        ctx.fillRect(c.x, c.y, c.size, c.size);
+
+        if (c.y > 600) confettiParticles.splice(i, 1);
+      }
+    }
+
+    
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      swingAngle += 0.04;
+
+      if (hitAnimation) {
+        stickRotation += 0.12;
+        if (stickRotation >= 0.3) {
+          if (!isBroken) {
+            isBroken = true;
+            createSplash();
+          }
+          hitAnimation = false;
+        }
+      } else {
+        if (stickRotation > -0.5) stickRotation -= 0.04;
+      }
+
+      drawBackground();
+      drawHandi();
+      drawKrishna();
+      drawParticles();
+
+      
+      if (isBroken) {
+        ctx.fillStyle = '#2d3436';
+        ctx.font = 'bold 24px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('गोविंदा आला रे आला!', 225, 450);
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    function triggerHit() {
+      if (isBroken) {
+        isBroken = false;
+        splashParticles.length = 0;
+        confettiParticles.length = 0;
+      }
+      hitAnimation = true;
+      stickRotation = -0.5;
+    }
+
+    
+    animate();
+    setTimeout(() => {
+      triggerHit();
+    }, 1500);
+  </script>
+</body>
+</html>
