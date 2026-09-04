@@ -60,7 +60,7 @@
     const splashParticles = [];
     const confettiParticles = [];
 
-    // कण तयार करण्याचे फंक्शन
+    
     function createSplash() {
       for (let i = 0; i < 40; i++) {
         splashParticles.push({
@@ -84,13 +84,13 @@
       }
     }
 
-    // बॅकग्राउंड व तोरण
+    
     function drawBackground() {
-      // मातीची जमीन
+      
       ctx.fillStyle = '#b2bec3';
       ctx.fillRect(0, 520, 450, 80);
 
-      // वरची दोरी
+      
       ctx.strokeStyle = '#634b35';
       ctx.lineWidth = 3;
       ctx.beginPath();
@@ -98,7 +98,7 @@
       ctx.quadraticCurveTo(225, 90, 450, 70);
       ctx.stroke();
 
-      // तोरण/फुले
+      
       for (let x = 30; x < 450; x += 40) {
         ctx.fillStyle = '#ff7675';
         ctx.beginPath();
@@ -107,13 +107,13 @@
       }
     }
 
-    // दहीहंडी
+
     function drawHandi() {
       ctx.save();
       ctx.translate(225, 80);
       ctx.rotate(Math.sin(swingAngle) * 0.08);
 
-      // लटकवलेली दोरी
+      
       ctx.strokeStyle = '#d63031';
       ctx.lineWidth = 2;
       ctx.beginPath();
@@ -122,30 +122,30 @@
       ctx.stroke();
 
       if (!isBroken) {
-        // अखंड मटका
+        
         ctx.fillStyle = '#d35400';
         ctx.beginPath();
         ctx.arc(0, 120, 32, 0, Math.PI * 2);
         ctx.fill();
 
-        // हंडीवरील डिझाईन
+        
         ctx.fillStyle = '#f1c40f';
         ctx.fillRect(-22, 115, 44, 8);
 
-        // लोणी वरून बाहेर येताना
+        
         ctx.fillStyle = '#ffffff';
         ctx.beginPath();
         ctx.arc(0, 93, 14, 0, Math.PI);
         ctx.fill();
       } else {
-        // फुटलेला मटका
+        
         ctx.fillStyle = '#d35400';
         ctx.beginPath();
         ctx.arc(-14, 125, 16, 0, Math.PI * 2);
         ctx.arc(14, 125, 16, 0, Math.PI * 2);
         ctx.fill();
 
-        // खाली पडणारी दहीची धार
+        
         ctx.fillStyle = '#ffffff';
         ctx.fillRect(-6, 120, 12, 100);
       }
